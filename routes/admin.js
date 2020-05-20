@@ -12,7 +12,7 @@ const products = [];
 router.get('/add-product', (req, res, next) => 
 {
     //sends html to the page
-    res.sendFile(path.join(rootDir, 'views', 'add-product.html'));
+    res.render('add-product', {pageTitle: 'Add Product', path: '/admin/add-product'});
 });
 //.get for a get request, use for all
 router.post('/add-product', (req, res)=>

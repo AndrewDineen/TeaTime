@@ -18,7 +18,7 @@ app.use(shop);
 
 app.use((req, res, next)=>
 { 
-    res.status(404).sendFile(path.join(__dirname, 'views', 'page-not-found.html'));
+    res.status(404).render('404', {pageTitle: '404'});
 });
 
 //maintain event loop

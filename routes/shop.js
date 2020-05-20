@@ -14,7 +14,7 @@ shop.get('/', (req, res, next) =>
     //process.cwd() or current working directory.
     //__dirname holds the cwd or path to your project folder
     const product = adminData.products;
-    res.render('shop', {prods: product, docTitle: 'Shop'});
+    res.render('shop', {prods: product, pageTitle: 'Shop', path:'/'});
 });
 
 /*shop.post('/add-product', (req, res, next)=>
