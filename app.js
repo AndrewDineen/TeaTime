@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
-
+const error = require('./controllers/error');
 const adminRoutes = require('./routes/admin');
 const shop = require('./routes/shop');
 
@@ -18,10 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/admin', adminRoutes);
 app.use(shop);
 
-app.use('/', (req, res, next)=>
-{ 
-    res.status(404).render('404', {pageTitle: '404'});
-});
+app.use('/', error.get404);
 
 //maintain event loop
 app.listen(3000);
