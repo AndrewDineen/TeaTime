@@ -3,12 +3,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const app = express();
+
 const error = require('./controllers/error');
 const adminRoutes = require('./routes/admin');
 const shop = require('./routes/shop');
 
-
+const app = express();
 
 app.set('view engine', 'ejs');
 
