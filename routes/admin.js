@@ -11,7 +11,11 @@ router.get('/products', adminController.getProducts);
 //.get for a get request, use for all
 router.post('/add-product', adminController.postAddProduct);
 
+router.get('/edit-product/:productId', adminController.getEditProduct);
 
+router.post('/edit-product', adminController.postEditProduct);
+
+router.post('/delete-product', adminController.postDeleteProduct);
 
 //export the router
 module.exports = router;

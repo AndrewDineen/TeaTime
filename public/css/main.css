@@ -146,6 +146,8 @@ form {
 
 .card {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  text-align: center;
+  padding-bottom: 2rem;
 }
 
 .card__header,
