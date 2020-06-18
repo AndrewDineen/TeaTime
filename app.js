@@ -35,6 +35,9 @@ app.use(
 );
 
 app.use((req, res, next) => {
+  if (!req.session.user) {
+    return next();
+  }
   User.findByPk(req.session.user.id)
     .then(user => {
       req.user = user;
@@ -61,18 +64,6 @@ Order.belongsToMany(Product, { through: OrderItem });
 sequelize
   .sync()
   .then(result => {
-    return User.findByPk(1);
-  })
-  .then(user => {
-    if (!user) {
-      return User.create({ name: "Andrew", email: "test@test.com" });
-    }
-    return user;
-  })
-  .then(user => {
-    return user.createCart();
-  })
-  .then(cart => {
     app.listen(3000);
   })
   .catch(err => {
