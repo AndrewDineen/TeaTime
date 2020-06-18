@@ -1,5 +1,6 @@
 /*jshint esversion:6*/
 const Product = require("../models/product");
+const User = require("../models/user");
 
 exports.getProducts = (req, res, next) => {
   Product.findAll()
@@ -42,7 +43,7 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
-  req.session.user
+  req.user
     .getCart()
     .then(cart =>
       cart
@@ -64,7 +65,7 @@ exports.postCart = (req, res, next) => {
   const prodId = req.body.productId;
   let fetchedCart;
   let newQuantity = 1;
-  req.session.user
+  req.user
     .getCart()
     .then(cart => {
       fetchedCart = cart;
@@ -97,7 +98,7 @@ exports.postCart = (req, res, next) => {
 
 exports.postCartDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
-  req.session.user
+  req.user
     .getCart()
     .then(cart => {
       return cart.getProducts({ where: { id: prodId } });
@@ -112,14 +113,14 @@ exports.postCartDeleteProduct = (req, res, next) => {
 
 exports.postOrder = (req, res, next) => {
   let fetchedCart;
-  req.session.user
+  req.user
     .getCart()
     .then(cart => {
       fetchedCart = cart;
       return cart.getProducts();
     })
     .then(products => {
-      return req.session.user
+      return req.user
         .createOrder()
         .then(order => {
           return order.addProducts(
@@ -140,7 +141,7 @@ exports.postOrder = (req, res, next) => {
     .catch(err => console.log(err));
 };
 exports.getOrders = (req, res, next) => {
-  req.session.user
+  req.user
     .getOrders({ include: ["products"] })
     .then(orders => {
       res.render("shop/orders", {

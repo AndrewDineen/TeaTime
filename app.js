@@ -19,13 +19,12 @@ const session = require("express-session");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 
 const app = express();
+app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, "public")));
 const store = new SequelizeStore({
   db: sequelize,
 });
-app.set("view engine", "ejs");
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "public")));
 app.use(
   session({
     secret: "my secret",
@@ -34,6 +33,15 @@ app.use(
     store: store,
   })
 );
+
+app.use((req, res, next) => {
+  User.findByPk(req.session.user.id)
+    .then(user => {
+      req.user = user;
+      next();
+    })
+    .catch(err => console.log(err));
+});
 
 app.use("/admin", adminRoutes);
 app.use(shop);

@@ -1,5 +1,6 @@
 /*jshint esversion:6*/
 const Product = require("../models/product");
+const User = require("../models/user");
 
 exports.getAddProduct = (req, res) => {
   //sends html to the page
@@ -16,7 +17,7 @@ exports.postAddProduct = (req, res) => {
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
-  req.session.user
+  req.user
     .createProduct({
       title: title,
       imageUrl: imageUrl,
@@ -38,7 +39,7 @@ exports.getEditProduct = (req, res) => {
     return res.redirect("/");
   }
   const prodId = req.params.productId;
-  req.session.user
+  req.user
     .getProducts({ where: { id: prodId } })
     .then(products => {
       const product = products[0];
@@ -77,7 +78,7 @@ exports.postEditProduct = (req, res, next) => {
     .catch(err => console.log(err));
 };
 exports.getProducts = (req, res, next) => {
-  req.session.user
+  req.user
     .getProducts()
     .then(products => {
       res.render("admin/products", {

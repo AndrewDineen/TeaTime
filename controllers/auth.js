@@ -13,7 +13,6 @@ exports.postLogin = (req, res, next) => {
   User.findByPk(1)
     .then(user => {
       req.session.user = user;
-      console.log(req.session.user);
       res.redirect("/");
     })
     .catch(err => console.log(err));
@@ -22,6 +21,6 @@ exports.postLogin = (req, res, next) => {
 exports.postLogout = (req, res, next) => {
   req.session.destroy(err => {
     res.redirect("/");
-    console.log(err);
+    if(err){console.log(err);}
   });
 };
