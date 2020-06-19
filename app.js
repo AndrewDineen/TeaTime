@@ -18,13 +18,14 @@ const OrderItem = require("./models/order-item");
 const session = require("express-session");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const csrf = require("csurf");
+const flash = require('connect-flash');
 
 const app = express();
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 const csrfProtection = csrf();
-app.use(csrfProtection);
+
 const store = new SequelizeStore({
   db: sequelize,
 });
@@ -36,7 +37,8 @@ app.use(
     store: store,
   })
 );
-
+app.use(csrfProtection);
+app.use(flash());
 app.use((req, res, next) => {
   if (!req.session.user) {
     return next();
@@ -48,7 +50,7 @@ app.use((req, res, next) => {
     })
     .catch(err => console.log(err));
 });
-app.use((req, res, next)=> {
+app.use((req, res, next) => {
   res.locals.isAuthenticated = req.session.isLoggedIn;
   res.locals.csrfToken = req.csrfToken();
   next();
