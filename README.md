@@ -1,2 +1,2 @@
-# TeaParty
-TeaParty is a web store that sells specialty teas from around the world!
+# TeaTime
+TeaTime is a web store that sells specialty teas from around the world!
